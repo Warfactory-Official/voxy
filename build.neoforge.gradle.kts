@@ -95,9 +95,16 @@ dependencies {
     jarJar("org.apache.commons:commons-pool2:$commonsPoolVersion")
     jarJar("org.tukaani:xz:$xzVersion")
     jarJar("org.xerial:sqlite-jdbc:$sqliteJdbcVersion")
+    // Share the Java bindings with other mods (e.g. C2ME OpenCL), while retaining standalone support.
+    jarJar("org.lwjgl:lwjgl-zstd:$lwjglVersion") {
+        // Keep the bindings aligned with the bundled natives, including during Jar-in-Jar selection.
+        version {
+            strictly("[$lwjglVersion]")
+            prefer(lwjglVersion)
+        }
+    }
 
     shadedDependencies("org.lwjgl:lwjgl-lmdb:$lwjglVersion")
-    shadedDependencies("org.lwjgl:lwjgl-zstd:$lwjglVersion")
     shadedDependencies("org.lwjgl:lwjgl-lmdb:$lwjglVersion:natives-windows")
     shadedDependencies("org.lwjgl:lwjgl-zstd:$lwjglVersion:natives-windows")
     shadedDependencies("org.lwjgl:lwjgl-lmdb:$lwjglVersion:natives-linux")
